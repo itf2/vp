@@ -1,0 +1,43 @@
+.vpx{
+  --vp-i-play:url(https://i.imgur.com/aOnegLR.png);
+  --vp-i-pause:url(https://i.imgur.com/oqW4TVu.png);
+  --vp-i-full:url(https://i.imgur.com/aalyHkW.png);
+  --vp-i-exit:url(https://i.imgur.com/1kfAhZK.png);
+}
+
+.vpx.vpx .vp-row .vp-ic{
+  width:20px;
+  height:20px;
+  transform:translateY(2px);
+}
+
+.vpx.vpx .vp-big{
+  width:30px!important;
+  height:30px!important;
+  margin:-15px 0 0 -15px!important;
+}
+
+.vpx.vpx .vp-big .vp-ic{
+  transform:translateY(5px);
+}
+
+.vpx.vpx .vp-row{
+  margin:0 0 -6px!important;
+}
+
+.vpx.vpx button{
+  -webkit-tap-highlight-color:transparent;
+}
+
+.vpx.vpx button:hover,
+.vpx.vpx button:active,
+.vpx.vpx button:focus{
+  background:none!important;
+  outline:none;
+}
+
+.vpx{
+  --vp-max:480px;
+  --vp-max-m:78%;
+  --vp-max-l:360px;
+}
