@@ -57,6 +57,12 @@ display:flex;align-items:center;justify-content:center;font-size:15px;font-weigh
 .vp-flash.go{animation:vpf .6s ease-out}
 @keyframes vpf{0%{opacity:1;transform:scale(.8)}100%{opacity:0;transform:scale(1.4)}}
 @media (max-width:560px){.vp-vg,.vp-pip{display:none!important}.vp-ttl{font-size:15px}.vp-big{width:64px!important;height:64px!important;margin:-32px 0 0 -32px}}
+.vpx .vp-ctl{display:block!important;z-index:5;box-sizing:border-box}
+.vpx .vp-bar{display:flex!important;height:22px!important;width:100%!important;margin:0!important}
+.vpx .vp-trk{display:block!important;min-height:6px;margin:0!important}
+.vpx .vp-row{display:flex!important;margin:0!important}
+.vpx .vp-time{display:inline-block!important;color:#fff!important;font-size:14px!important;line-height:38px}
+.vpx .vp-pos,.vpx .vp-buf{display:block!important}
 @media (prefers-reduced-motion:reduce){.vpx *{transition:none!important;animation:none!important}}
 `;
 
@@ -114,8 +120,9 @@ display:flex;align-items:center;justify-content:center;font-size:15px;font-weigh
     v.controls = false;
     v.removeAttribute('controls');
     v.playsInline = true;
-    v.preload = g('preload') || 'metadata';
-    if (host.hasAttribute('data-loop') || host.hasAttribute('loop')) v.loop = true;
+    v.preload = g('preload') || 'auto';
+    // loop implicit; dezactivare cu atributul noloop
+    v.loop = !(host.hasAttribute('noloop') || host.hasAttribute('data-noloop'));
     if (host.hasAttribute('autoplay')) { v.muted = true; v.autoplay = true; }
 
     root.innerHTML =
