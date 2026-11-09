@@ -13,11 +13,14 @@ box-shadow:0 0 0 3px var(--violet),0 10px 30px rgba(46,42,110,.55);margin:12px 0
 transition:background .15s,transform .15s;color:#fff}
 .vpx button:hover{background:rgba(217,185,238,.25);transform:scale(1.08)}
 .vpx svg{width:24px;height:24px;fill:currentColor;pointer-events:none}
-.vpx .vp-big{position:absolute;z-index:6;left:50%;top:50%;width:42px!important;height:42px!important;margin:-21px 0 0 -21px;
+.vpx .vp-big{position:absolute;z-index:6;left:50%;top:50%;width:30px!important;height:30px!important;margin:-15px 0 0 -15px;
 background:none!important;box-shadow:none!important;border-radius:0!important;transition:transform .15s,opacity .2s}
 .vpx .vp-big:hover{background:none!important;transform:scale(1.1)}
-.vpx .vp-pi{display:block;width:18px;height:18px;object-fit:contain;pointer-events:none}
-.vpx .vp-big img{display:block;width:100%;height:100%;object-fit:contain;pointer-events:none}
+.vpx .vp-pi{display:block;width:20px;height:20px;object-fit:contain;pointer-events:none;transform:translateY(2px)}
+.vpx .vp-big img{display:block;width:100%;height:100%;object-fit:contain;pointer-events:none;transform:translateY(5px)}
+.vpx .vp-pi,.vpx .vp-big img{filter:drop-shadow(0 1px 3px rgba(0,0,0,.75))}
+.vpx .vp-fb{width:20px;height:20px;transform:translateY(2px);filter:drop-shadow(0 1px 3px rgba(0,0,0,.75))}
+.vpx .vp-big .vp-fb{width:100%;height:100%;transform:translateY(5px)}
 .vpx.playing .vp-big{opacity:0;pointer-events:none;transform:scale(1.4)}
 .vp-ttl{position:absolute;top:0;left:0;right:0;padding:14px 18px 40px;font-size:18px;font-weight:600;
 transition:opacity .25s;text-shadow:0 1px 4px #000a}
@@ -35,7 +38,7 @@ border:5px solid rgba(217,185,238,.25);border-top-color:var(--pink);border-right
 display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:600;opacity:0;pointer-events:none}
 .vp-flash.go{animation:vpf .6s ease-out}
 @keyframes vpf{0%{opacity:1;transform:scale(.8)}100%{opacity:0;transform:scale(1.4)}}
-@media (max-width:560px){.vp-ttl{font-size:15px}.vpx .vp-big{width:36px!important;height:36px!important;margin:-18px 0 0 -18px}}
+@media (max-width:560px){.vp-ttl{font-size:15px}.vpx .vp-big{width:30px!important;height:30px!important;margin:-15px 0 0 -15px}}
 .vpx .vp-ctl{display:block!important;z-index:5;box-sizing:border-box}
 .vpx .vp-row{display:flex!important;margin:0 0 -6px!important}
 @media (prefers-reduced-motion:reduce){.vpx *{transition:none!important;animation:none!important}}
@@ -43,10 +46,17 @@ display:flex;align-items:center;justify-content:center;font-size:15px;font-weigh
 
   var IMG = 'https://raw.githubusercontent.com/itf2/vp/refs/heads/main/Image/';
   var BIGPLAY = IMG + 'play.png';
-  var pic = function (n) { return '<img class="vp-pi" src="' + IMG + n + '.png" alt="">'; };
+  var pic = function (n) { return '<img class="vp-pi" data-n="' + n + '" src="' + IMG + n + '.png" alt="">'; };
+  var FB = {
+    play: 'M8 5v14l11-7z',
+    pause: 'M6 5h4v14H6zM14 5h4v14h-4z',
+    fullscreen: 'M5 5h5v2H7v3H5zm9 0h5v5h-2V7h-3zM5 14h2v3h3v2H5zm12 0h2v5h-5v-2h3z',
+    exitFullscreen: 'M8 5h2v5H5V8h3zm6 0h2v3h3v2h-5zM5 14h5v5H8v-3H5zm9 0h5v2h-3v3h-2z'
+  };
+  var fb = function (n) { return '<svg class="vp-fb" viewBox="0 0 24 24"><path d="' + FB[n] + '"/></svg>'; };
 
   var I = {
-    play: '<img class="vp-pi" src="' + BIGPLAY + '" alt="">',
+    play: pic('play'),
     pause: pic('pause'),
     vol: '<svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9zm13.5 3A4.5 4.5 0 0 0 14 8v8a4.5 4.5 0 0 0 2.5-4zM14 3.2v2.1a7 7 0 0 1 0 13.4v2.1a9 9 0 0 0 0-17.6z"/></svg>',
     mute: '<svg viewBox="0 0 24 24"><path d="M16.5 12A4.5 4.5 0 0 0 14 8v2.2l2.5 2.5v-.7zM19 12a7 7 0 0 1-.9 3.4l1.5 1.5A9 9 0 0 0 21 12a9 9 0 0 0-7-8.8v2.1A7 7 0 0 1 19 12zM4.3 3 3 4.3 7.7 9H3v6h4l5 5v-6.7l4.3 4.3a7 7 0 0 1-2.3 1.2v2.1a9 9 0 0 0 3.7-1.9l2 2 1.3-1.3L4.3 3zM12 4 9.9 6.1 12 8.2z"/></svg>',
@@ -106,13 +116,21 @@ display:flex;align-items:center;justify-content:center;font-size:15px;font-weigh
     root.innerHTML =
       '<div class="vp-ttl"></div>' +
       '<div class="vp-load"></div><div class="vp-flash"></div>' +
-      '<button class="vp-big" aria-label="Redare"><img src="' + BIGPLAY + '" alt=""></button>' +
+      '<button class="vp-big" aria-label="Redare"><img data-n="play" src="' + BIGPLAY + '" alt=""></button>' +
       '<div class="vp-ctl">' +
         '<div class="vp-row">' +
           '<button class="vp-pp" aria-label="Redare/Pauza">' + I.play + '</button>' +
           '<span class="vp-sp"></span>' +
           '<button class="vp-fs" aria-label="Ecran complet">' + I.full + '</button>' +
         '</div></div>';
+    root.addEventListener('error', function (e) {
+      var t = e.target;
+      if (t && t.tagName === 'IMG' && t.getAttribute('data-n')) {
+        var w = document.createElement('span');
+        w.innerHTML = fb(t.getAttribute('data-n'));
+        t.parentNode.replaceChild(w.firstChild, t);
+      }
+    }, true);
     var customIcon = g('play-icon');
     if (customIcon) root.querySelector('.vp-big img').src = customIcon;
     root.insertBefore(v, root.firstChild);
