@@ -6,8 +6,8 @@
 }
 
 .vpx.vpx .vp-row .vp-ic{
-  width:20px;
-  height:20px;
+  width:16px;
+  height:16px;
   transform:translateY(2px);
 }
 
@@ -40,4 +40,8 @@
   --vp-max:480px;
   --vp-max-m:78%;
   --vp-max-l:360px;
+}
+
+.vpx.vpx .vp-ctl{
+  padding:34px 4px 0 22px;
 }
