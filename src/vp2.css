@@ -45,3 +45,7 @@
 .vpx.vpx .vp-ctl{
   padding:34px 4px 0 22px;
 }
+
+.vpx.vpx.playing .vp-row .vp-ic-pp{
+  transform:translate(-6px,2px);
+}
