@@ -17,7 +17,7 @@ transition:background .15s,transform .15s;color:#fff}
 background:none!important;box-shadow:none!important;border-radius:0!important;transition:transform .15s,opacity .2s}
 .vpx .vp-ic{display:block;width:16px;height:16px;background:center/contain no-repeat;pointer-events:none;transform:translateY(2px);filter:drop-shadow(0 1px 3px rgba(0,0,0,.75))}
 .vpx .vp-ic-pp{background-image:var(--vp-i-play)}
-.vpx.playing .vp-ic-pp{background-image:var(--vp-i-pause)}
+.vpx.playing .vp-ic-pp{background-image:var(--vp-i-pause);transform:translate(-6px,2px)}
 .vpx .vp-ic-fs{background-image:var(--vp-i-full)}
 .vpx.isfs .vp-ic-fs{background-image:var(--vp-i-exit)}
 .vpx .vp-big .vp-ic{width:100%;height:100%;transform:translateY(5px);background-image:var(--vp-i-play)}
