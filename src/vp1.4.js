@@ -7,6 +7,7 @@
 position:relative;width:100%;max-width:var(--vp-max,480px);aspect-ratio:16/9;background:radial-gradient(circle at 30% 20%,#3b2a7a,#1d1445 70%);
 border-radius:18px;overflow:hidden;font-family:'Fredoka','Trebuchet MS',sans-serif;color:#fff;user-select:none;-webkit-user-select:none;
 box-shadow:0 0 0 3px var(--violet),0 10px 30px rgba(46,42,110,.55);margin:12px auto}
+.vpx,.vpx:focus,.vpx:focus-visible,.vpx video,.vpx video:focus,.vpx video:focus-visible{outline:none!important;-webkit-tap-highlight-color:transparent}
 .vpx:fullscreen{border-radius:0;aspect-ratio:auto;max-width:none;margin:0;box-shadow:none}
 .vpx video{width:100%;height:100%;display:block;background:#000;object-fit:contain}
 .vpx button{all:unset;-webkit-tap-highlight-color:transparent;outline:none;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:50%;
@@ -98,9 +99,6 @@ transition:opacity .25s;text-shadow:0 1px 4px #000a}
     else $('.vp-ttl').remove();
 
     var toggle = function () { v.paused ? v.play() : v.pause(); };
-    var seek = function (d) {
-      v.currentTime = Math.max(0, Math.min(v.duration || 0, v.currentTime + d));
-    };
     var toggleFS = function () {
       if (document.fullscreenElement === root || document.webkitFullscreenElement === root) {
         (document.exitFullscreen || document.webkitExitFullscreen).call(document);
@@ -128,10 +126,9 @@ transition:opacity .25s;text-shadow:0 1px 4px #000a}
       clearTimeout(ct);
       ct = setTimeout(toggle, 220);
     });
-    v.addEventListener('dblclick', function (e) {
+    v.addEventListener('dblclick', function () {
       clearTimeout(ct);
-      var r = v.getBoundingClientRect(), x = (e.clientX - r.left) / r.width;
-      if (x < 0.3) seek(-10); else if (x > 0.7) seek(10); else toggleFS();
+      toggleFS();
     });
 
     root.addEventListener('keydown', function (e) {
