@@ -14,7 +14,7 @@ transition:background .15s,transform .15s;color:#fff}
 .vpx svg{width:24px;height:24px;fill:currentColor;pointer-events:none}
 .vpx .vp-big{position:absolute;z-index:6;left:50%;top:50%;width:30px!important;height:30px!important;margin:-15px 0 0 -15px;
 background:none!important;box-shadow:none!important;border-radius:0!important;transition:transform .15s,opacity .2s}
-.vpx .vp-ic{display:block;width:20px;height:20px;background:center/contain no-repeat;pointer-events:none;transform:translateY(2px);filter:drop-shadow(0 1px 3px rgba(0,0,0,.75))}
+.vpx .vp-ic{display:block;width:16px;height:16px;background:center/contain no-repeat;pointer-events:none;transform:translateY(2px);filter:drop-shadow(0 1px 3px rgba(0,0,0,.75))}
 .vpx .vp-ic-pp{background-image:var(--vp-i-play)}
 .vpx.playing .vp-ic-pp{background-image:var(--vp-i-pause)}
 .vpx .vp-ic-fs{background-image:var(--vp-i-full)}
@@ -23,20 +23,12 @@ background:none!important;box-shadow:none!important;border-radius:0!important;tr
 .vpx.playing .vp-big{opacity:0;pointer-events:none;transform:scale(1.4)}
 .vp-ttl{position:absolute;top:0;left:0;right:0;padding:14px 18px 40px;font-size:18px;font-weight:600;
 transition:opacity .25s;text-shadow:0 1px 4px #000a}
-.vp-ctl{position:absolute;left:0;right:0;bottom:0;padding:34px 12px 0;transition:opacity .25s}
+.vp-ctl{position:absolute;left:0;right:0;bottom:0;padding:34px 4px 0 22px;transition:opacity .25s}
 .vpx.hide .vp-ctl,.vpx.hide .vp-ttl{opacity:0}.vpx.hide{cursor:none}
 .vpx.started:not(.playing) .vp-ctl,.vpx:not(.playing) .vp-ttl{opacity:1}
 .vpx:not(.started) .vp-ctl{opacity:0!important;pointer-events:none}
 .vp-row{display:flex;align-items:center;gap:2px}
 .vp-sp{flex:1}
-.vp-load{position:absolute;left:50%;top:50%;width:54px;height:54px;margin:-27px 0 0 -27px;border-radius:50%;
-border:5px solid rgba(217,185,238,.25);border-top-color:var(--pink);border-right-color:var(--star);animation:vps 1s linear infinite;display:none;pointer-events:none}
-.vpx.wait .vp-load{display:block}
-@keyframes vps{to{transform:rotate(360deg)}}
-.vp-flash{position:absolute;left:50%;top:50%;margin:-30px 0 0 -30px;width:60px;height:60px;border-radius:50%;background:#1d1445b0;
-display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:600;opacity:0;pointer-events:none}
-.vp-flash.go{animation:vpf .6s ease-out}
-@keyframes vpf{0%{opacity:1;transform:scale(.8)}100%{opacity:0;transform:scale(1.4)}}
 @media (max-width:560px){.vpx{max-width:var(--vp-max-m,78%)}.vp-ttl{font-size:15px}.vpx .vp-big{width:30px!important;height:30px!important;margin:-15px 0 0 -15px}}
 .vpx .vp-ctl{display:block!important;z-index:5;box-sizing:border-box}
 .vpx .vp-row{display:flex!important;margin:0 0 -6px!important}
@@ -88,7 +80,6 @@ display:flex;align-items:center;justify-content:center;font-size:15px;font-weigh
 
     root.innerHTML =
       '<div class="vp-ttl"></div>' +
-      '<div class="vp-load"></div><div class="vp-flash"></div>' +
       '<button class="vp-big" aria-label="Redare"><i class="vp-ic"></i></button>' +
       '<div class="vp-ctl">' +
         '<div class="vp-row">' +
@@ -102,24 +93,13 @@ display:flex;align-items:center;justify-content:center;font-size:15px;font-weigh
     if (!existing) host.appendChild(root);
 
     var $ = function (s) { return root.querySelector(s); };
-    var pp = $('.vp-pp'), fs = $('.vp-fs'), flash = $('.vp-flash');
+    var pp = $('.vp-pp'), fs = $('.vp-fs');
     if (title) $('.vp-ttl').textContent = title;
     else $('.vp-ttl').remove();
 
     var toggle = function () { v.paused ? v.play() : v.pause(); };
-    var say = function (t) {
-      flash.textContent = t;
-      flash.classList.remove('go');
-      void flash.offsetWidth;
-      flash.classList.add('go');
-    };
     var seek = function (d) {
       v.currentTime = Math.max(0, Math.min(v.duration || 0, v.currentTime + d));
-      say((d > 0 ? '+' : '') + d + 's');
-    };
-    var setVol = function (x) {
-      v.volume = Math.max(0, Math.min(1, x));
-      v.muted = v.volume === 0;
     };
     var toggleFS = function () {
       if (document.fullscreenElement === root || document.webkitFullscreenElement === root) {
@@ -135,9 +115,6 @@ display:flex;align-items:center;justify-content:center;font-size:15px;font-weigh
     v.addEventListener('pause', function () {
       root.classList.remove('playing', 'hide');
     });
-    v.addEventListener('waiting', function () { root.classList.add('wait'); });
-    v.addEventListener('canplay', function () { root.classList.remove('wait'); });
-    v.addEventListener('playing', function () { root.classList.remove('wait'); });
     document.addEventListener('fullscreenchange', function () {
       root.classList.toggle('isfs', document.fullscreenElement === root);
     });
@@ -159,16 +136,8 @@ display:flex;align-items:center;justify-content:center;font-size:15px;font-weigh
 
     root.addEventListener('keydown', function (e) {
       var k = e.key, used = true;
-      if (k === ' ' || k === 'k') toggle();
-      else if (k === 'ArrowLeft') seek(-5);
-      else if (k === 'ArrowRight') seek(5);
-      else if (k === 'j') seek(-10);
-      else if (k === 'l') seek(10);
-      else if (k === 'ArrowUp') setVol(v.volume + 0.1);
-      else if (k === 'ArrowDown') setVol(v.volume - 0.1);
-      else if (k === 'm') v.muted = !v.muted;
-      else if (k === 'f') toggleFS();
-      else if (k >= '0' && k <= '9') v.currentTime = (v.duration || 0) * (+k / 10);
+      if (k === ' ') toggle();
+      else if (k === 'f' || k === 'F') toggleFS();
       else used = false;
       if (used) e.preventDefault();
       kick();
