@@ -17,14 +17,14 @@ transition:background .15s,transform .15s;color:#fff}
 background:none!important;box-shadow:none!important;border-radius:0!important;transition:transform .15s,opacity .2s}
 .vpx .vp-ic{display:block;width:16px;height:16px;background:center/contain no-repeat;pointer-events:none;transform:translateY(2px);filter:drop-shadow(0 1px 3px rgba(0,0,0,.75))}
 .vpx .vp-ic-pp{background-image:var(--vp-i-play)}
-.vpx.playing .vp-ic-pp{background-image:var(--vp-i-pause);transform:translate(-6px,2px)}
+.vpx.playing .vp-ic-pp{background-image:var(--vp-i-pause)}
 .vpx .vp-ic-fs{background-image:var(--vp-i-full)}
 .vpx.isfs .vp-ic-fs{background-image:var(--vp-i-exit)}
 .vpx .vp-big .vp-ic{width:100%;height:100%;transform:translateY(5px);background-image:var(--vp-i-play)}
 .vpx.playing .vp-big{opacity:0;pointer-events:none;transform:scale(1.4)}
 .vp-ttl{position:absolute;top:0;left:0;right:0;padding:14px 18px 40px;font-size:18px;font-weight:600;
 transition:opacity .25s;text-shadow:0 1px 4px #000a}
-.vp-ctl{position:absolute;left:0;right:0;bottom:0;padding:34px 4px 0 22px;transition:opacity .25s}
+.vp-ctl{position:absolute;left:0;right:0;bottom:0;padding:34px 4px 0 11px;transition:opacity .25s}
 .vpx.hide .vp-ctl,.vpx.hide .vp-ttl{opacity:0}.vpx.hide{cursor:none}
 .vpx.started:not(.playing) .vp-ctl,.vpx:not(.playing) .vp-ttl{opacity:1}
 .vpx:not(.started) .vp-ctl{opacity:0!important;pointer-events:none}
