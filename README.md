@@ -1,4 +1,4 @@
-# Video Player v1.6
+# Video Player v1.7
 
 ## Design
 
@@ -17,6 +17,7 @@ Interface: Twilight Sparkle
 - 1.4
 - 1.5
 - 1.6
+- 1.7
   
 Created by 292004
 
