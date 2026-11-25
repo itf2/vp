@@ -35,6 +35,9 @@ transition:opacity .25s;text-shadow:0 1px 4px #000a}
 .vpx .vp-row{display:flex!important;margin:0 0 -6px!important}
 @media (orientation:landscape) and (max-height:500px){.vpx{max-width:var(--vp-max-l,360px)}}
 @media (prefers-reduced-motion:reduce){.vpx *{transition:none!important;animation:none!important}}
+.vpx video::-internal-media-controls-overlay-cast-button,
+.vpx video::-webkit-media-controls-overlay-cast-button,
+.vpx video::-webkit-media-controls-enclosure{display:none!important}
 `;
 
   var ICONS = ':root{--vp-i-play:url(https://i.imgur.com/aOnegLR.png);--vp-i-pause:url(https://i.imgur.com/oqW4TVu.png);--vp-i-full:url(https://i.imgur.com/aalyHkW.png);--vp-i-exit:url(https://i.imgur.com/1kfAhZK.png)}';
@@ -74,6 +77,9 @@ transition:opacity .25s;text-shadow:0 1px 4px #000a}
     }
     v.controls = false;
     v.removeAttribute('controls');
+    v.disableRemotePlayback = true;
+    v.setAttribute('disableRemotePlayback', '');
+    v.setAttribute('controlsList', 'nodownload noremoteplayback');
     v.playsInline = true;
     v.preload = g('preload') || 'auto';
     v.loop = !(host.hasAttribute('noloop') || host.hasAttribute('data-noloop'));
