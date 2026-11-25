@@ -45,3 +45,9 @@
 .vpx.vpx .vp-ctl{
   padding:34px 4px 0 11px;
 }
+
+.vpx video::-internal-media-controls-overlay-cast-button,
+.vpx video::-webkit-media-controls-overlay-cast-button,
+.vpx video::-webkit-media-controls-enclosure{
+  display:none!important;
+}
