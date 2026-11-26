@@ -11,7 +11,7 @@
 .vpx.vpx .vp-row .vp-ic{
   width:16px;
   height:16px;
-  transform:none!important;
+  transform:translateY(1px)!important;
   margin:0!important;
 }
 
@@ -32,6 +32,7 @@
 .vpx.vpx button:hover,
 .vpx.vpx button:active,
 .vpx.vpx button:focus{
+  background:none!important;
   outline:none!important;
 }
 
@@ -83,35 +84,26 @@
   justify-content:center!important;
   visibility:visible!important;
   opacity:1!important;
-  width:32px!important;
-  height:32px!important;
-  min-width:32px!important;
-  flex:0 0 32px!important;
+  width:27px!important;
+  height:27px!important;
+  min-width:27px!important;
+  flex:0 0 27px!important;
   pointer-events:auto!important;
   margin:0!important;
   padding:0!important;
-  background:rgba(255,255,255,0.025)!important;
-  border:1px solid rgba(255,255,255,0.07)!important;
+  background:none!important;
+  border:none!important;
   border-radius:50%!important;
-  backdrop-filter:blur(3px);
-  -webkit-backdrop-filter:blur(3px);
-  box-shadow:0 1px 4px rgba(0,0,0,0.06);
-}
-
-.vpx .vp-ctl button:hover{
-  background:rgba(255,255,255,0.06)!important;
-}
-
-.vpx .vp-ctl button:active{
-  background:rgba(255,255,255,0.09)!important;
-  transform:scale(0.94);
+  box-shadow:none!important;
+  backdrop-filter:none!important;
+  -webkit-backdrop-filter:none!important;
 }
 
 .vpx .vp-ctl .vp-ic{
   width:16px!important;
   height:16px!important;
   opacity:1!important;
-  transform:none!important;
+  transform:translateY(1px)!important;
   margin:0!important;
   position:relative!important;
   top:0!important;
@@ -124,6 +116,14 @@
 
 .vpx .vp-fs{
   margin:0!important;
+}
+
+.vpx:fullscreen .vp-ctl button,
+.vpx:-webkit-full-screen .vp-ctl button{
+  width:32px!important;
+  height:32px!important;
+  min-width:32px!important;
+  flex:0 0 32px!important;
 }
 
 .vpx:fullscreen,
