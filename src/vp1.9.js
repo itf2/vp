@@ -34,7 +34,6 @@ transition:opacity .25s;text-shadow:0 1px 4px #000a}
 @media (max-width:560px){.vpx{max-width:var(--vp-max-m,78%)}.vp-ttl{font-size:15px}.vpx .vp-big{width:30px!important;height:30px!important;margin:-15px 0 0 -15px}}
 .vpx .vp-ctl{display:block!important;z-index:5;box-sizing:border-box}
 .vpx .vp-row{display:flex!important;margin:0 0 -6px!important}
-.vpx .vp-fs{display:inline-flex!important;align-items:center;justify-content:center;width:38px;height:38px;cursor:pointer}
 @media (orientation:landscape) and (max-height:500px){.vpx{max-width:var(--vp-max-l,360px)}}
 @media (prefers-reduced-motion:reduce){.vpx *{transition:none!important;animation:none!important}}
 .vpx video::-internal-media-controls-overlay-cast-button,
@@ -67,6 +66,7 @@ transition:opacity .25s;text-shadow:0 1px 4px #000a}
 
     var root = document.createElement('div');
     root.className = 'vpx';
+    root.tabIndex = 0;
 
     var v;
 
@@ -120,34 +120,21 @@ transition:opacity .25s;text-shadow:0 1px 4px #000a}
       return root.querySelector(s);
     };
 
-    var pp = $('.vp-pp');
-    var fs = $('.vp-fs');
+    var pp = $('.vp-pp'),
+        fs = $('.vp-fs');
 
-    if (title) {
-      $('.vp-ttl').textContent = title;
-    } else {
-      $('.vp-ttl').remove();
-    }
+    if (title) $('.vp-ttl').textContent = title;
+    else $('.vp-ttl').remove();
 
     var toggle = function () {
-      if (v.paused) {
-        var promise = v.play();
-        if (promise && promise.catch) promise.catch(function () {});
-      } else {
-        v.pause();
-      }
+      v.paused ? v.play() : v.pause();
     };
 
     var toggleFS = function () {
       if (document.fullscreenElement === root || document.webkitFullscreenElement === root) {
-        var exit = document.exitFullscreen || document.webkitExitFullscreen;
-        if (exit) exit.call(document);
+        (document.exitFullscreen || document.webkitExitFullscreen).call(document);
       } else {
-        var enter = root.requestFullscreen || root.webkitRequestFullscreen;
-        if (enter) {
-          var promise = enter.call(root);
-          if (promise && promise.catch) promise.catch(function () {});
-        }
+        (root.requestFullscreen || root.webkitRequestFullscreen).call(root);
       }
     };
 
@@ -160,44 +147,53 @@ transition:opacity .25s;text-shadow:0 1px 4px #000a}
       root.classList.remove('playing', 'hide');
     });
 
-    function updateFullscreen() {
-      root.classList.toggle(
-        'isfs',
-        document.fullscreenElement === root ||
-        document.webkitFullscreenElement === root
-      );
-    }
+    document.addEventListener('fullscreenchange', function () {
+      root.classList.toggle('isfs', document.fullscreenElement === root);
+    });
 
-    document.addEventListener('fullscreenchange', updateFullscreen);
-    document.addEventListener('webkitfullscreenchange', updateFullscreen);
+    $('.vp-big').onclick = toggle;
+    pp.onclick = toggle;
+    fs.onclick = toggleFS;
 
-    $('.vp-big').onclick = function (e) {
-      e.stopPropagation();
-      toggle();
-    };
+    var ct;
 
-    pp.onclick = function (e) {
-      e.stopPropagation();
-      toggle();
-    };
+    v.addEventListener('click', function () {
+      clearTimeout(ct);
+      ct = setTimeout(toggle, 220);
+    });
 
-    fs.onclick = function (e) {
-      e.preventDefault();
-      e.stopPropagation();
+    v.addEventListener('dblclick', function () {
+      clearTimeout(ct);
       toggleFS();
-    };
-
-    // Elimină comenzile prin click și dublu-click pe videoclip
-    v.addEventListener('click', function (e) {
-      e.stopPropagation();
     });
 
-    v.addEventListener('dblclick', function (e) {
+    root.addEventListener('keydown', function (e) {
+      var k = e.key;
+
       e.preventDefault();
-      e.stopPropagation();
-    });
+      e.stopImmediatePropagation();
 
-    // Fără comenzi de la tastatură
+      if (k === ' ' || k === 'Spacebar') {
+        toggle();
+        kick();
+        return;
+      }
+
+      if (k === 'f' || k === 'F') {
+        toggleFS();
+        kick();
+      }
+    }, true);
+
+    root.addEventListener('keyup', function (e) {
+      e.preventDefault();
+      e.stopImmediatePropagation();
+    }, true);
+
+    root.addEventListener('keypress', function (e) {
+      e.preventDefault();
+      e.stopImmediatePropagation();
+    }, true);
 
     var ht;
 
@@ -213,10 +209,7 @@ transition:opacity .25s;text-shadow:0 1px 4px #000a}
     }
 
     root.addEventListener('mousemove', kick);
-
-    root.addEventListener('touchstart', kick, {
-      passive: true
-    });
+    root.addEventListener('touchstart', kick, { passive: true });
 
     root.addEventListener('mouseleave', function () {
       if (!v.paused) root.classList.add('hide');
