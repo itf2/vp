@@ -1,28 +1,103 @@
-.vpx.vpx .vp-ctl{
-  position:absolute;
-  top:50%;
-  left:12px;
-  right:auto;
-  bottom:auto;
-  padding:0!important;
-  transform:translateY(-50%);
-  z-index:5;
+.vpx{
+  --vp-i-play:url(https://i.imgur.com/aOnegLR.png);
+  --vp-i-pause:url(https://i.imgur.com/oqW4TVu.png);
+  --vp-i-full:url(https://i.imgur.com/aalyHkW.png);
+  --vp-i-exit:url(https://i.imgur.com/1kfAhZK.png);
+  --vp-max:480px;
+  --vp-max-m:78%;
+  --vp-max-l:360px;
 }
 
-.vpx.vpx .vp-row{
+.vpx.vpx .vp-row .vp-ic{
+  width:16px;
+  height:16px;
+  transform:translateY(2px);
+}
+
+.vpx.vpx .vp-big{
+  width:30px!important;
+  height:30px!important;
+  margin:-15px 0 0 -15px!important;
+}
+
+.vpx.vpx .vp-big .vp-ic{
+  transform:translateY(5px);
+}
+
+.vpx.vpx button{
+  -webkit-tap-highlight-color:transparent;
+}
+
+.vpx.vpx button:hover,
+.vpx.vpx button:active,
+.vpx.vpx button:focus{
+  background:none!important;
+  outline:none!important;
+}
+
+.vpx .vp-ctl,
+.vpx:fullscreen .vp-ctl,
+.vpx:-webkit-full-screen .vp-ctl{
+  position:absolute!important;
+  top:50%!important;
+  left:12px!important;
+  right:auto!important;
+  bottom:auto!important;
+  width:42px!important;
+  padding:0!important;
+  margin:0!important;
+  transform:translateY(-50%)!important;
+  z-index:999!important;
+  box-sizing:border-box!important;
+}
+
+.vpx .vp-row,
+.vpx:fullscreen .vp-row,
+.vpx:-webkit-full-screen .vp-row{
   display:flex!important;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  gap:12px;
+  flex-direction:column!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:12px!important;
+  width:100%!important;
   margin:0!important;
 }
 
-.vpx.vpx .vp-sp{
+.vpx .vp-sp{
   display:none!important;
 }
 
-.vpx.vpx .vp-ctl button{
-  width:38px;
-  height:38px;
+.vpx .vp-ctl button{
+  width:38px!important;
+  height:38px!important;
+  flex-shrink:0!important;
+}
+
+.vpx:fullscreen,
+.vpx:-webkit-full-screen{
+  position:relative!important;
+  border-radius:0;
+  aspect-ratio:auto;
+  max-width:none;
+  margin:0;
+  box-shadow:none;
+}
+
+.vpx video::-internal-media-controls-overlay-cast-button,
+.vpx video::-webkit-media-controls-overlay-cast-button,
+.vpx video::-webkit-media-controls-enclosure{
+  display:none!important;
+}
+
+@media (orientation:landscape) and (max-height:500px){
+  .vpx{
+    max-width:var(--vp-max-l,360px);
+  }
+}
+
+@media (prefers-reduced-motion:reduce){
+  .vpx *{
+    transition:none!important;
+    animation:none!important;
+  }
 }
