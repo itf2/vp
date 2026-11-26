@@ -1,8 +1,12 @@
+
 .vpx{
   --vp-i-play:url(https://i.imgur.com/aOnegLR.png);
   --vp-i-pause:url(https://i.imgur.com/oqW4TVu.png);
   --vp-i-full:url(https://i.imgur.com/aalyHkW.png);
   --vp-i-exit:url(https://i.imgur.com/1kfAhZK.png);
+  --vp-max:480px;
+  --vp-max-m:78%;
+  --vp-max-l:360px;
 }
 
 .vpx.vpx .vp-row .vp-ic{
@@ -22,7 +26,27 @@
 }
 
 .vpx.vpx .vp-row{
-  margin:0 0 -6px!important;
+  display:flex!important;
+  align-items:center;
+  justify-content:space-between;
+  margin:0!important;
+}
+
+.vpx.vpx .vp-ctl{
+  display:block!important;
+  opacity:1!important;
+  padding:34px 12px 10px!important;
+  z-index:10;
+  pointer-events:auto;
+}
+
+.vpx.vpx .vp-fs{
+  display:inline-flex!important;
+  align-items:center;
+  justify-content:center;
+  width:38px;
+  height:38px;
+  cursor:pointer;
 }
 
 .vpx.vpx button{
@@ -33,17 +57,11 @@
 .vpx.vpx button:active,
 .vpx.vpx button:focus{
   background:none!important;
-  outline:none;
+  outline:none!important;
 }
 
-.vpx{
-  --vp-max:480px;
-  --vp-max-m:78%;
-  --vp-max-l:360px;
-}
-
-.vpx.vpx .vp-ctl{
-  padding:34px 4px 0 11px;
+.vpx video{
+  outline:none!important;
 }
 
 .vpx video::-internal-media-controls-overlay-cast-button,
